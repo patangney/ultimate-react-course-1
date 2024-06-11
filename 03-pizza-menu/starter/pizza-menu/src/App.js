@@ -18,14 +18,20 @@ function App() {
 function Pizza(props) {
   const { name, ingredients, price, photoName, soldOut } = props;
 
+  //sold out
+  // if (soldOut) {
+  //   console.log(`The ${name} pizza is sold out`);
+  //   return null;
+  // }
+
   return (
     <Fragment>
-      <div className="pizza">
+      <div className={`pizza ${soldOut ? "sold-out" : ""}`}>
         <img src={require(`./img/pizzas/${photoName}`)} alt={name} />
         <li>
           <h3>{name}</h3>
           <p>{ingredients}</p>
-          <span>{soldOut ? <p>Sold Out</p> : <p>€{price}</p>}</span>
+          <span>{soldOut ? "Sold Out" : <p>€{price}</p>}</span>
         </li>
       </div>
     </Fragment>
@@ -53,16 +59,20 @@ const Footer = () => {
     <Fragment>
       <footer className="footer">
         {isOpen ? (
-          <Fragment>
-            <p>
-              We are open until {closeHour}:00. Come visit us or order online
-            </p>
-            <button className="center btn">Order</button>
-          </Fragment>
+          <Order openHours={openHour} closeHours={closeHour} />
         ) : (
           <p>We are currently closed - we are open tomorrow at {openHour}pm</p>
         )}
       </footer>
+    </Fragment>
+  );
+};
+
+const Order = ({ openHours, closeHours }) => {
+  return (
+    <Fragment>
+      <p>We are open until {closeHours}:00. Come visit us or order online</p>
+      <button className="center btn">Order</button>
     </Fragment>
   );
 };
@@ -76,11 +86,18 @@ const Menu = () => {
         <h2>Our Menu</h2>
 
         {numPizzas > 0 ? (
-          <ul className="pizzas">
-            {pizzas.map((pizza) => (
-              <Pizza key={pizza.id} {...pizza} />
-            ))}
-          </ul>
+          <Fragment>
+            <p>
+              Authentic Italian cuisine. We have {numPizzas} pizzas available to
+              choose from. All our pizzas are made with fresh ingredients and
+              cooked in a wood-fired oven.
+            </p>
+            <ul className="pizzas">
+              {pizzas.map((pizza) => (
+                <Pizza key={pizza.id} {...pizza} />
+              ))}
+            </ul>
+          </Fragment>
         ) : (
           <p>No pizzas available</p>
         )}
