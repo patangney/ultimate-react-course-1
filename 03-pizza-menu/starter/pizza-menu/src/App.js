@@ -22,22 +22,22 @@ function Pizza(props) {
     <Fragment>
       <div className="pizza">
         <img src={require(`./img/pizzas/${photoName}`)} alt={name} />
-        <div>
+        <li>
           <h3>{name}</h3>
           <p>{ingredients}</p>
-        </div>
-        {soldOut ? <p>Sold Out</p> : <p>€{price}</p>}
+          <span>{soldOut ? <p>Sold Out</p> : <p>€{price}</p>}</span>
+        </li>
       </div>
     </Fragment>
   );
 }
 
 const Header = () => {
-  const style = { color: "red", fontSize: "32px", textTransform: "uppercase" };
+  // const style = { color: "red", fontSize: "32px", textTransform: "uppercase" };
   return (
     <Fragment>
       <header className="header">
-        <h1 style={style}>Welcome to Pizza Place</h1>
+        <h1>Welcome to Pizza Place</h1>
       </header>
     </Fragment>
   );
@@ -48,27 +48,42 @@ const Footer = () => {
   console.log(hour);
   const openHour = 12;
   const closeHour = 23;
-  if (hour >= openHour && hour < closeHour) {
-    return (
+  const isOpen = hour >= openHour && hour < closeHour;
+  return (
+    <Fragment>
       <footer className="footer">
-        {new Date().toLocaleTimeString().slice(0, 5)} We're currently open
+        {isOpen ? (
+          <Fragment>
+            <p>
+              We are open until {closeHour}:00. Come visit us or order online
+            </p>
+            <button className="center btn">Order</button>
+          </Fragment>
+        ) : (
+          <p>We are currently closed - we are open tomorrow at {openHour}pm</p>
+        )}
       </footer>
-    );
-  } else {
-    return <footer>We're currently closed</footer>;
-  }
+    </Fragment>
+  );
 };
 
 const Menu = () => {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.length;
   return (
     <Fragment>
       <main className="menu">
         <h2>Our Menu</h2>
-        <div className="pizzas">
-          {pizzaData.map((pizza) => (
-            <Pizza key={pizza.id} {...pizza} />
-          ))}
-        </div>
+
+        {numPizzas > 0 ? (
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza key={pizza.id} {...pizza} />
+            ))}
+          </ul>
+        ) : (
+          <p>No pizzas available</p>
+        )}
       </main>
     </Fragment>
   );
