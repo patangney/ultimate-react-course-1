@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 
 const messages = [
   "Learn React ⚛️",
@@ -45,7 +45,7 @@ function Steps() {
   }
 
   return (
-    <div>
+    <Fragment>
       <button className="close" onClick={() => setIsOpen((is) => !is)}>
         &times;
       </button>
@@ -83,7 +83,7 @@ function Steps() {
           </div>
         </div>
       )}
-    </div>
+    </Fragment>
   );
 }
 
