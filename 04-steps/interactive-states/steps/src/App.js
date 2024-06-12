@@ -7,7 +7,15 @@ const messages = [
   "Invest your new income 🤑",
 ];
 
-function App() {
+const App = () => {
+  return (
+    <div>
+      <Steps />
+    </div>
+  );
+};
+
+function Steps() {
   // set state
   const [step, setSteps] = useState(1);
   const [myName, setName] = useState({ name: "Patrick" });
